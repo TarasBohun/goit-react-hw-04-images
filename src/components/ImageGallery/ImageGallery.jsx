@@ -5,52 +5,49 @@ import PropTypes from 'prop-types';
 import { Modal } from '../Modal';
 
 import css from './ImageGallery.module.css';
-import { Component } from 'react';
+import { useState } from 'react';
 
-export class ImageGallery extends Component {
-  state = {
-    showModal: false,
-    largeImage: '',
+export const ImageGallery = ({ images }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [largeImage, setLargeImage] = useState('');
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
   };
 
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
+  const getShowModal = id => {
+    const image = images.find(image => image.id === id);
+    setLargeImage(image.largeImageURL);
   };
 
-  showModal = id => {
-    const image = this.props.images.find(image => image.id === id);
-    this.setState({
-      largeImage: image.largeImageURL,
-    });
-  };
-
-  render() {
-    const { showModal, largeImage } = this.state;
-    return (
-      <div className={css.containerImage}>
-        <ul className={css.ImageGallery}>
-          <>
-            <ImageGalleryItem
-              images={this.props.images}
-              openModal={this.toggleModal}
-              handlePreview={this.showModal}
-            />
-          </>
-        </ul>
-        {showModal && (
-          <Modal onClose={this.toggleModal}>
-            <div>
-              <img src={largeImage} alt=""></img>
-            </div>
-          </Modal>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div className={css.containerImage}>
+      <ul className={css.ImageGallery}>
+        <>
+          <ImageGalleryItem
+            images={images}
+            openModal={toggleModal}
+            handlePreview={getShowModal}
+          />
+        </>
+      </ul>
+      {showModal && (
+        <Modal onClose={toggleModal}>
+          <div>
+            <img src={largeImage} alt=""></img>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+};
 
 ImageGallery.propTypes = {
-  value: PropTypes.string.isRequired,
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      // id: PropTypes.number.isRequired,
+      // webformatURL: PropTypes.string.isRequired,
+      // user: PropTypes.string,
+    })
+  ),
 };

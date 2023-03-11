@@ -1,33 +1,31 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+// import { Component } from 'react';
 
 import css from './ImageGalleryItem.module.css';
 
-export class ImageGalleryItem extends Component {
-  render() {
-    return this.props.images.map(image => {
-      return (
-        <li
-          key={image.id}
-          className={css.ImageGalleryItem}
+export const ImageGalleryItem = ({ images, openModal, handlePreview }) => {
+  return images.map(image => {
+    return (
+      <li
+        key={image.id}
+        className={css.ImageGalleryItem}
+        onClick={() => {
+          openModal();
+        }}
+      >
+        <img
+          className={css.ImageGalleryItemImage}
+          src={image.webformatURL}
+          alt={image.user}
+          width={150}
           onClick={() => {
-            this.props.openModal();
+            handlePreview(image.id);
           }}
-        >
-          <img
-            className={css.ImageGalleryItemImage}
-            src={image.webformatURL}
-            alt={image.user}
-            width={150}
-            onClick={() => {
-              this.props.handlePreview(image.id);
-            }}
-          />
-        </li>
-      );
-    });
-  }
-}
+        />
+      </li>
+    );
+  });
+};
 
 ImageGalleryItem.propTypes = {
   images: PropTypes.arrayOf(
