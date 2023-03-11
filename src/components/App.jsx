@@ -35,10 +35,10 @@ const App = () => {
         setImages([...images, ...res.hits]);
         setLoader(false);
         setTotalHits(res.totalHits);
-      })
-      .catch(error => {
-        setError(error);
       });
+    // .catch(error => {
+    //   setError(error);
+    // });
   }, [textSearch, page]);
 
   const handleSubmit = textSearch => {
