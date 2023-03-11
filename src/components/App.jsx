@@ -8,6 +8,8 @@ import { Searchbar } from './Searchbar';
 import { Button } from './Button';
 import { Loader } from 'components/Loader';
 
+import axios from 'axios';
+
 const App = () => {
   const [textSearch, setTextSearch] = useState('');
   const [images, setImages] = useState([]);
