@@ -8,7 +8,7 @@ import { Searchbar } from './Searchbar';
 import { Button } from './Button';
 import { Loader } from 'components/Loader';
 
-import axios from 'axios';
+// import axios from 'axios';
 
 const App = () => {
   const [textSearch, setTextSearch] = useState('');
@@ -32,13 +32,13 @@ const App = () => {
           setLoader(false);
           return;
         }
-        setImages([...images, ...res.hits]);
+        setImages(prevState => [...prevState, ...res.hits]);
         setLoader(false);
         setTotalHits(res.totalHits);
+      })
+      .catch(error => {
+        setError(error);
       });
-    // .catch(error => {
-    //   setError(error);
-    // });
   }, [textSearch, page]);
 
   const handleSubmit = textSearch => {
